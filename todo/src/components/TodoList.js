@@ -36,6 +36,7 @@ const TodoList = () => {
             <form onSubmit={addTodo}>
                 <input type="text" value={items} onChange={handleChanges} />
                 <button>Add Todo</button>
+                <button onClick={() => dispatch({ type: "CLEAR_COMPLETED" })}>Clear Completed</button>
             </form>
         </div>
     )
