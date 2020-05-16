@@ -28,7 +28,10 @@ const TodoList = () => {
     return (
         <div>
             {state.todos.map(todo => {
-                return <p>{todo.item}</p>;
+                return <p className={`item${todo.completed ? " completed" : ""}`}
+                onClick={() =>
+                  dispatch({ type: "TOGGLE_COMPLETED", payload: todo.id })
+                }>{todo.item}</p>;
             })}
             <form onSubmit={addTodo}>
                 <input type="text" value={items} onChange={handleChanges} />
