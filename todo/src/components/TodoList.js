@@ -3,17 +3,37 @@ import { initialState, TodoReducer } from "../reducers/TodoReducer";
 
 const TodoList = () => {
     //item, completed, id
-    const[item, setItem] = useState('');
-    const[completed, setCompleted] = useState('');
-    const[id, setId] = useState('');
+    // const[item, setItem] = useState('');
+    // const[completed, setCompleted] = useState('');
+    // const[id, setId] = useState('');
 
     const [state, dispatch] = useReducer(TodoReducer, initialState);
 
+    const [items, setItems] = useState("");
+
+    const addTodo = e => {
+        e.preventDefault();
+        let todo = { 
+            item: items, 
+            completed: false, 
+            ID: Date.now() };
+        dispatch({ type: "ADD_TODO", payload: todo });
+        setItems("");
+    };
+
+    const handleChanges = e => {
+        setItems(e.target.value);
+    };
+
     return (
         <div>
-            <p>{item}</p>
-            <p>{completed}</p>
-            <p>{id}</p>
+            {state.todos.map(todo => {
+                return <p>{todo.item}</p>;
+            })}
+            <form onSubmit={addTodo}>
+                <input type="text" value={items} onChange={handleChanges} />
+                <button>Add Todo</button>
+            </form>
         </div>
     )
 

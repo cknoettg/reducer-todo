@@ -18,7 +18,9 @@ export const initialState =  {
 
 export const TodoReducer = function reducer(state, action) {
     switch (action.type) {
-       default:
-        return state
+        case "ADD_TODO":
+            return { todos: [...state, {item: action.payload, completed: false, id: Date.now()}] }
+        default:
+            return state
     }
 };
