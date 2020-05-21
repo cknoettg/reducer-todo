@@ -2,24 +2,10 @@ import React, { useState, useReducer } from "react";
 import { initialState, TodoReducer } from "../reducers/TodoReducer";
 
 const TodoList = () => {
-    //item, completed, id
-    // const[item, setItem] = useState('');
-    // const[completed, setCompleted] = useState('');
-    // const[id, setId] = useState('');
-
+    
     const [state, dispatch] = useReducer(TodoReducer, initialState);
 
     const [items, setItems] = useState("");
-
-    const addTodo = e => {
-        e.preventDefault();
-        let todo = { 
-            item: items, 
-            completed: false, 
-            ID: Date.now() };
-        dispatch({ type: "ADD_TODO", payload: todo });
-        setItems("");
-    };
 
     const handleChanges = e => {
         setItems(e.target.value);
@@ -30,13 +16,21 @@ const TodoList = () => {
             {state.todos.map(todo => {
                 return <p className={`item${todo.completed ? " completed" : ""}`}
                 onClick={() =>
-                  dispatch({ type: "TOGGLE_COMPLETED", payload: todo.id })
+                  dispatch({ type: "TOGGLE_COMPLETED", payload: todo.ID })
                 }>{todo.item}</p>;
             })}
-            <form onSubmit={addTodo}>
+            <form>
                 <input type="text" value={items} onChange={handleChanges} />
-                <button>Add Todo</button>
-                <button onClick={() => dispatch({ type: "CLEAR_COMPLETED" })}>Clear Completed</button>
+                <button onClick={e => { 
+                    e.preventDefault();
+                    dispatch({type: "ADD_TODO", payload:items});
+                    setItems("")
+                    }}>Add Todo</button>
+                <button onClick={e => {
+                    e.preventDefault();
+                    dispatch({ type: "CLEAR_COMPLETED" })
+                    }}>Clear Completed</button>
+    
             </form>
         </div>
     )
